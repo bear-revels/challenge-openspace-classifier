@@ -2,7 +2,7 @@
 
 import random
 import pandas as pd
-from table import Table
+from .table import Table
 
 class Openspace():
     """
@@ -15,7 +15,7 @@ class Openspace():
 
 
     def organize(self, names):
-        pd.shuffle(names)
+        random.shuffle(names)
         current_table_index = 0
         for name in names:
             while current_table_index < len(self.tables):
@@ -33,10 +33,10 @@ class Openspace():
                 print(f"Seat {j+1}: {'Empty' if seat.free else seat.occupant}")
 
     def store(self, filename):
-        # Implementation for storing repartition in an excel file
+    # Implementation for storing data in an excel file
         data = []
-        for i, table in enumerate(self.tables):
-            for j, seat in enumerate(table.seats):
-                data.append([f"Table {i+1}", "Seat {j+1}", seat.occupant if not seat.free else "Empty"])
+        for i, table in enumerate(self.tables, start=1):
+            for j, seat in enumerate(table.seats, start=1):
+                data.append([f"Table {i}", f"Seat {j}", seat.occupant if not seat.free else "Empty"])
         df = pd.DataFrame(data, columns=["Table", "Seat", "Occupant"])
         df.to_excel(filename, index=False)

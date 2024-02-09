@@ -20,7 +20,7 @@ class Table:
         self.seats = [Seat() for _ in range(capacity)]
 
     def has_free_spot(self):
-        return len(self.seats) < self.capacity
+        return any(seat.free for seat in self.seats)
 
     def assign_seat(self, name:str):
         for seat in self.seats:
