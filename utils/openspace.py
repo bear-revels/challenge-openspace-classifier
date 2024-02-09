@@ -18,25 +18,17 @@ class Openspace:
             number_of_tables (int): The number of tables in the openspace.
         """
         self.number_of_tables = number_of_tables
-        self.tables = [Table() for _ in range(number_of_tables)]
+        self.tables = [Table() for _ in range(number_of_tables)] # list containing 'number_of_tables' instances of the 'Table' class
 
     def organize(self, names):
-        """
-        Assigns colleagues to available seats randomly across the tables.
-
-        Args:
-            names (list): A list of colleague names to be assigned to seats.
-        """
-        random.shuffle(names)
-        current_table_index = 0
-        for name in names:
-            while current_table_index < len(self.tables):
-                if self.tables[current_table_index].has_free_spot():
-                    self.tables[current_table_index].assign_seat(name)
-                    break
-                current_table_index += 1
-            if current_table_index == len(self.tables):
-                current_table_index = 0
+        random.shuffle(names) #shuffle the list of names
+        for table in self.tables:
+            while table.has_free_spot() and names: # if there is a free seat at the table and a name on the list
+                name_of_colleague = names.pop() # remove a name from the list
+                table.assign_seat(name_of_colleague) # add that name to the seat
+        if len(names) != 0:
+            for x in names:
+                print(f'{x} dose not have a seat available')
 
     def display(self):
         """
