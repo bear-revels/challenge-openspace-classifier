@@ -9,17 +9,34 @@ class Openspace():
     Class that defines the number of tables and seats within the new work place
     """
     
-    def __init__(self, number_of_tables = 6):
-        self.number_of_tables = 6
+    def __init__(self, number_of_tables:int):
+        self.number_of_tables = number_of_tables
         self.tables = [Table() for _ in range(number_of_tables)]
 
 
     def organize(self, names):
-        pass
-
+        pd.shuffle(names)
+        current_table_index = 0
+        for name in names:
+            while current_table_index < len(self.tables):
+                if self.tables[current_table_index].has_free_spot():
+                    self.tables[current_table_index].assign_seat(name)
+                    break
+                current_table_index += 1
+            if current_table_index == len(self.tables):
+                current_table_index = 0
 
     def display(self):
-        pass
+        for i, table in enumerate(self.tables):
+            print(f"Table {i+1}:")
+            for j, seat in enumerate(table.seats):
+                print(f"Seat {j+1}: {'Empty' if seat.free else seat.occupant}")
 
     def store(self, filename):
-        pass
+        # Implementation for storing repartition in an excel file
+        data = []
+        for i, table in enumerate(self.tables):
+            for j, seat in enumerate(table.seats):
+                data.append([f"Table {i+1}", "Seat {j+1}", seat.occupant if not seat.free else "Empty"])
+        df = pd.DataFrame(data, columns=["Table", "Seat", "Occupant"])
+        df.to_excel(filename, index=False)

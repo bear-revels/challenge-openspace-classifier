@@ -1,25 +1,19 @@
 """This file contains the object definitions and classifications for tables and seats. There are 6 tables and 4 seats at each table for a total of 24 seats."""
 
 class Seat:
-    # Class that defines the seat's status as being free or not free and then the occupant that is occupying the seat
+    # Class that defines the seat's status as being free or not free and then the occupant that is occupying the seat if it is not free
     
     def __init__(self):
         self.free = True
         self.occupant = None
 
     def set_occupant(self, name):
-        if self.free:
+        if self.free == True:
             self.occupant = name
-            self.free = False
-    
-    def remove_occupant(self):
-        occupant = self.occupant
-        self.occupant = None
-        self.free = True
-        return occupant
+            self.free = False    
 
 class Table:
-    # Class that defines the table's remaining seat capacity
+    # Class that defines the table's seat capacity and remaining available seats
     
     def __init__(self, capacity = 4):
         self.capacity = 4
@@ -28,7 +22,7 @@ class Table:
     def has_free_spot(self):
         return len(self.seats) < self.capacity
 
-    def assign_seat(self, name):
+    def assign_seat(self, name:str):
         for seat in self.seats:
             if seat.free:
                 seat.set_occupant(name)
@@ -37,8 +31,6 @@ class Table:
 
     def left_capacity(self):
         return self.capacity - len(self.seats)
-
-
 
 
             

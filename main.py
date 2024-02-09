@@ -1,15 +1,21 @@
-from table import Seat
-from table import Table
+import csv
+from utils.openspace import Openspace
 
-filename = "./new_colleagues.csv"
-seating_assignments = []
+# Load colleagues from CSV file
+colleagues = []
+with open("new_colleagues.csv", newline='') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        colleagues.extend(row)
 
-with open(filename, newline='') as list_of_colleagues:
-    reader = csv.reader(list_of_colleagues)
-    # Flatten the nested list using list comprehension
-    seating_assignments = [name for row in reader for name in row]
-    room = []
-    for name in seating_assignments:
-        some_seat = Seat(True, ' ')
-        some_seat.set_occupant(name)
-        room.append(some_seat)
+# Create Openspace instance with 3 tables
+openspace = Openspace(6)
+
+# Organize colleagues into seats
+openspace.organize(colleagues)
+
+# Display the results
+openspace.display()
+
+# Store the results in an excel file
+openspace.store("assigned_seats.xlsx")
