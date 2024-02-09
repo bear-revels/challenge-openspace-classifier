@@ -8,14 +8,14 @@ with open("new_colleagues.csv", newline='') as csvfile:
     for row in reader:
         colleagues.extend(row)
 
-# Create Openspace instance with 3 tables
+# Create Openspace instance with 6 tables
 openspace = Openspace(6)
 
 # Organize colleagues into seats
 openspace.organize(colleagues)
 
-# Display the results
+# Display the assigned seats
 openspace.display()
 
-# Store the results in an excel file
+# Store the assigned seats in an Excel file
 openspace.store("assigned_seats.xlsx")
